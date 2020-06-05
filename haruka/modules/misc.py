@@ -171,7 +171,7 @@ def info(bot: Bot, update: Update, args: List[str]):
     text += tld(chat.id, "\nPermanenter Link: {}\n").format(mention_html(user.id, "link"))
 
     if user.id == OWNER_ID:
-        text += tld(chat.id, "\n\nDas is ja Shity!")
+        text += tld(chat.id, "\n\nEy, das ist mein Papi! Ich werde niemals etwas gegen ihn tun!")
     else:
         if user.id == int(694318747):
             text += tld(chat.id, "\nThis person.... He is my god.")
@@ -239,6 +239,18 @@ def gdpr(bot: Bot, update: Update):
 
     update.effective_message.reply_text(tld(update.effective_chat.id, "send_gdpr"), parse_mode=ParseMode.MARKDOWN)
 
+
+@user_is_gbanned
+@run_async
+def markdown_help(bot: Bot, update: Update):
+    chat = update.effective_chat  # type: Optional[Chat]
+    update.effective_message.reply_text(tld(chat.id, "MARKDOWN_HELP-K"), parse_mode=ParseMode.HTML)
+    update.effective_message.reply_text(tld(chat.id, "Try forwarding the following message to me, and you'll see!"))
+    update.effective_message.reply_text(tld(chat.id, "/save test This is a markdown test. _italics_, *bold*, `code`, "
+                                        "[URL](example.com) [button](buttonurl:github.com) "
+                                        "[button2](buttonurl://google.com:same)"))
+
+
 @run_async
 def stats(bot: Bot, update: Update):
     update.effective_message.reply_text("Current stats:\n" + "\n".join([mod.__stats__() for mod in STATS]))
@@ -251,12 +263,12 @@ def ping(bot: Bot, update: Update):
     google = ping3('google.com', count=4)
     print(google)
     text = "*Pong!*\n"
-    text += "Geschwindigkeit der Verbindung zum TG-Server: `{}` ms\n".format(tg_api.rtt_avg_ms)
+    text += "Average speed to Telegram bot API server - `{}` ms\n".format(tg_api.rtt_avg_ms)
     if google.rtt_avg:
         gspeed = google.rtt_avg
     else:
         gspeed = google.rtt_avg
-    text += "Geschwindigkeit der Verbindung zu Google: `{}` ms".format(gspeed)
+    text += "Average speed to Google - `{}` ms".format(gspeed)
     update.effective_message.reply_text(text, parse_mode=ParseMode.MARKDOWN)
 
 #def google(bot: Bot, update: Update):
