@@ -81,7 +81,7 @@ def send(update, message, keyboard, backup_message):
             LOGGER.warning(keyboard)
             LOGGER.exception("Could not parse! got invalid url host errors")
             except BadRequest:
-                return ""
+        return ""
     return msg
 
 @run_async
