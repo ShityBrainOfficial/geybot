@@ -80,7 +80,7 @@ def send(update, message, keyboard, backup_message):
             LOGGER.warning(message)
             LOGGER.warning(keyboard)
             LOGGER.exception("Could not parse! got invalid url host errors")
-            except BadRequest:       
+            except BadRequest:
           return ""
        return msg
 
