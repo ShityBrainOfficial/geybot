@@ -80,9 +80,7 @@ def send(update, message, keyboard, backup_message):
             LOGGER.warning(message)
             LOGGER.warning(keyboard)
             LOGGER.exception("Could not parse! got invalid url host errors")
-            except BadRequest:
-          return ""
-       return msg
+            return msg
 
 @run_async
 def new_member(bot: Bot, update: Update):
