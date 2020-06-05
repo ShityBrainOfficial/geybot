@@ -79,10 +79,10 @@ def send(update, message, keyboard, backup_message):
                                                       parse_mode=ParseMode.MARKDOWN)
             LOGGER.warning(message)
             LOGGER.warning(keyboard)
-
- except BadRequest:
- return ""
- return msg
+            LOGGER.exception("Could not parse! got invalid url host errors")
+            except BadRequest:
+                return ""
+    return msg
 
 @run_async
 def new_member(bot: Bot, update: Update):
@@ -103,7 +103,7 @@ def new_member(bot: Bot, update: Update):
             if new_mem.id == bot.id:
                 bot.send_message(
                     MESSAGE_DUMP,
-                    "Ich wurde zum Chat {} mit der ID <pre>{}</pre> hinzugefügt".format(chat.title, chat.id),
+                    "I have been added to {} with ID: <pre>{}</pre>".format(chat.title, chat.id),
                     parse_mode=ParseMode.HTML
                 )
                 bot.send_message(chat.id, "Hallo zusammen! Schön, dass ich hier sein darf! Um alle Funktionen von mir nutzen zu können, muss ich Adminrechte besitzen! Falls du eine Liste mit verfügbaren Befehlen brauchst, schreib einfach /help . Viel Spaß noch!")
@@ -115,12 +115,11 @@ def new_member(bot: Bot, update: Update):
                     cleanserv = sql.clean_service(chat.id)
                     # Clean service welcome
                     if cleanserv:
-                    try:
-                        dispatcher.bot.delete_message(
-                            chat.id, update.message.message_id)
-                    except BadRequest:
-                        pass
-                    reply = False
+                        try:
+                            dispatcher.bot.delete_message(chat.id, update.message.message_id)
+                        except BadRequest:
+                            pass
+                        reply = False
                     # Formatting text
                     first_name = new_mem.first_name or "PersonWithNoName"  # edge case of empty name - occurs for some bugs.
                     if new_mem.last_name:
@@ -816,5 +815,4 @@ dispatcher.add_handler(SECURITY_MUTE_HANDLER)
 dispatcher.add_handler(SECURITY_BUTTONTXT_HANDLER)
 dispatcher.add_handler(SECURITY_BUTTONRESET_HANDLER)
 dispatcher.add_handler(CLEAN_SERVICE_HANDLER)
-
 dispatcher.add_handler(help_callback_handler)
