@@ -82,7 +82,7 @@ def send(update, message, keyboard, backup_message):
 
             except BadRequest:
                 return ""
-    return msg
+            return msg
 
 @run_async
 def new_member(bot: Bot, update: Update):
